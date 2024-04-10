@@ -1,7 +1,7 @@
-import styles from "../../styles/navBar.module.css";
+import styles from "../../styles/common/navbar.module.css";
 import PropTypes from "prop-types";
-import { useContext } from "react";
-import { NavContext } from "../../utils/contextProvider";
+import { Link } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 NameLogo.propTypes = {
   title: PropTypes.string,
@@ -9,30 +9,26 @@ NameLogo.propTypes = {
 
 NavItem.propTypes = {
   label: PropTypes.string,
-  pageIndex: PropTypes.number,
+  url: PropTypes.string,
 };
 
 function NameLogo({ title }) {
   return <h1 className={styles["cv-title"]}>{title}</h1>;
 }
 
-function NavItem({ label, pageIndex }) {
-  const handleNavClick = useContext(NavContext);
+function NavItem({ url, label }) {
   return (
-    <li
-      className={styles["nav-item"]}
-      onClick={() => handleNavClick(pageIndex)}
-    >
-      {label}
-    </li>
+    <Link to={url} className={styles["nav-item"]}>
+      <li>{label}</li>
+    </Link>
   );
 }
 
 function MenuSection() {
   return (
     <ul className={styles["nav-menu-list"]}>
-      <NavItem pageIndex={0} label={"Home"} />
-      <NavItem pageIndex={1} label={"Login"} />
+      <NavItem url="/" label={"Home"} />
+      <NavItem url="/login" label={"Login"} />
     </ul>
   );
 }
@@ -46,7 +42,7 @@ function Menu() {
   );
 }
 
-export default function NavBar() {
+export default function Navbar() {
   return (
     <div className={styles["nav-bar"]}>
       <Menu />

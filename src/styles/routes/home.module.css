@@ -1,0 +1,6 @@
+.home-layout {
+  display: grid;
+  grid-template: 1fr / 2fr 1fr;
+  column-gap: 1em;
+  min-width: 100%;
+}

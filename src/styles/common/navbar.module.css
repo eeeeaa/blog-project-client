@@ -21,13 +21,18 @@
   list-style: none;
   text-decoration: none;
   padding: 0;
-}
 
-.nav-item {
-  list-style: none;
-  text-decoration: none;
-  padding: 0;
-  transition: color 0.2s ease;
+  .nav-item {
+    font-size: large;
+    font-weight: 100;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+    color: white;
+  }
+  .nav-item:hover {
+    color: #94a3b8;
+  }
 }
 
 .nav-item:hover {
