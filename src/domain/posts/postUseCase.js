@@ -1,120 +1,199 @@
-import {
-  useDataGet,
-  useDataPost,
-  useDataPut,
-  useDataDelete,
-} from "../common/urlFetcher";
 import { postToJsonObjMapper } from "../common/mapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "../../model/postUiModel";
 
 const postUri = `${import.meta.env.VITE_BLOG_API_URL}/posts`;
 
-export const useGetPosts = () => {
-  const { data, error, loading } = useDataGet(postUri);
+export const useGetPosts = (token = "") => {
+  const [posts, setPosts] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //map response
-  const [posts, setPosts] = useState([]);
-  if (data) {
-    setPosts(
-      data.posts.map((val) => {
-        return new Post(
-          val._id,
-          val.post_title,
-          val.post_content,
-          val.created_at,
-          val.updated_at,
-          val.post_status
-        );
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${token}` };
+    fetch(postUri, { method: "GET", mode: "cors", headers: headers })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
       })
-    );
-  }
+      .then((response) =>
+        setPosts(
+          response.posts.map((val) => {
+            return new Post(
+              val._id,
+              val.post_title,
+              val.post_content,
+              val.created_at,
+              val.updated_at,
+              val.post_status
+            );
+          })
+        )
+      )
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [token]);
 
   return { posts, error, loading };
 };
 
-export const useGetOnePost = (postId) => {
-  const { data, error, loading } = useDataGet(`${postUri}/${postId}`);
+export const useGetOnePost = (postId, token = "") => {
+  const [post, setPost] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //map response
-  const [post, setPost] = useState(null);
-  if (data) {
-    setPost(
-      new Post(
-        data.post._id,
-        data.post.post_title,
-        data.post.post_content,
-        data.post.created_at,
-        data.post.updated_at,
-        data.post.post_status
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${token}` };
+    fetch(`${postUri}/${postId}`, {
+      method: "GET",
+      mode: "cors",
+      headers: headers,
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =>
+        setPost(
+          new Post(
+            response.post._id,
+            response.post.post_title,
+            response.post.post_content,
+            response.post.created_at,
+            response.post.updated_at,
+            response.post.post_status
+          )
+        )
       )
-    );
-  }
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [postId, token]);
 
   return { post, error, loading };
 };
 
-export const useCreatePost = (postModel) => {
+export const useCreatePost = (postModel, token = "") => {
   const jsonObj = postToJsonObjMapper(postModel);
-  const { data, error, loading } = useDataPost(postUri, jsonObj);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [post, setPost] = useState({});
 
-  //map response
-  const [post, setPost] = useState(null);
-  if (data) {
-    setPost(
-      new Post(
-        data.post._id,
-        data.post.post_title,
-        data.post.post_content,
-        data.post.created_at,
-        data.post.updated_at,
-        data.post.post_status
+  useEffect(() => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    fetch(postUri, {
+      method: "POST",
+      mode: "cors",
+      headers: headers,
+      body: JSON.stringify(jsonObj),
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =>
+        setPost(
+          new Post(
+            response.post._id,
+            response.post.post_title,
+            response.post.post_content,
+            response.post.created_at,
+            response.post.updated_at,
+            response.post.post_status
+          )
+        )
       )
-    );
-  }
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [token, jsonObj]);
 
   return { post, error, loading };
 };
 
-export const useUpdatePost = (postId, postModel) => {
+export const useUpdatePost = (postId, postModel, token = "") => {
   const jsonObj = postToJsonObjMapper(postModel);
-  const { data, error, loading } = useDataPut(`${postUri}/${postId}`, jsonObj);
+  const [post, setPost] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //map response
-  const [post, setPost] = useState(null);
-  if (data) {
-    setPost(
-      new Post(
-        data.updatedPost._id,
-        data.updatedPost.post_title,
-        data.updatedPost.post_content,
-        data.updatedPost.created_at,
-        data.updatedPost.updated_at,
-        data.updatedPost.post_status
+  useEffect(() => {
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    fetch(`${postUri}/${postId}`, {
+      method: "PUT",
+      mode: "cors",
+      headers: headers,
+      body: JSON.stringify(jsonObj),
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =>
+        setPost(
+          new Post(
+            response.updatedPost._id,
+            response.updatedPost.post_title,
+            response.updatedPost.post_content,
+            response.updatedPost.created_at,
+            response.updatedPost.updated_at,
+            response.updatedPost.post_status
+          )
+        )
       )
-    );
-  }
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [jsonObj, postId, token]);
 
   return { post, error, loading };
 };
 
-export const useDeletePost = (postId) => {
-  const { data, error, loading } = useDataDelete(`${postUri}/${postId}`);
+export const useDeletePost = (postId, token = "") => {
+  const [post, setPost] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //map response
-  const [post, setPost] = useState(null);
-  if (data) {
-    setPost(
-      new Post(
-        data.deletedPost._id,
-        data.deletedPost.post_title,
-        data.deletedPost.post_content,
-        data.deletedPost.created_at,
-        data.deletedPost.updated_at,
-        data.deletedPost.post_status
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${token}` };
+    fetch(`${postUri}/${postId}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: headers,
+    })
+      .then((response) => {
+        if (response.status >= 400) {
+          throw new Error("server error");
+        }
+        return response.json();
+      })
+      .then((response) =>
+        setPost(
+          new Post(
+            response.deletedPost._id,
+            response.deletedPost.post_title,
+            response.deletedPost.post_content,
+            response.deletedPost.created_at,
+            response.deletedPost.updated_at,
+            response.deletedPost.post_status
+          )
+        )
       )
-    );
-  }
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  }, [postId, token]);
 
   return { post, error, loading };
 };

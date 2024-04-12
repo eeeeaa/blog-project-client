@@ -1,6 +1,3 @@
-import { useDataPost } from "../common/urlFetcher";
-import { useState } from "react";
-import { UserProfile } from "../../model/userProfileUiModel";
 const loginUri = `${import.meta.env.VITE_BLOG_API_URL}/auth/login`;
 
 //login
