@@ -1,32 +1,41 @@
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Navbar from "./common/navbar";
 import styles from "../styles/App.module.css";
-import { UserContext, DispatchUserContext } from "../utils/contextProvider";
+import { AppContext } from "../utils/contextProvider";
 
 import { Home } from "./routes/home";
+import { Login } from "./routes/login";
+import ErrorPage from "./routes/error";
 
-function Root(userProfile, setUserProfile) {
+function Root() {
+  const [cookies, setCookie] = useCookies(["token"]);
+
+  const [userProfile, setUserProfile] = useState(null);
   return (
-    <UserContext.Provider value={userProfile}>
-      <DispatchUserContext.Provider value={setUserProfile}>
-        <Navbar />
-        <div className={styles.content}>
-          <Outlet />
-        </div>
-      </DispatchUserContext.Provider>
-    </UserContext.Provider>
+    <AppContext.Provider
+      value={{
+        userProfile,
+        setUserProfile,
+        cookies,
+        setCookie,
+      }}
+    >
+      <Navbar />
+      <div className={styles.content}>
+        <Outlet />
+      </div>
+    </AppContext.Provider>
   );
 }
 
 function App() {
-  const [userProfile, setUserProfile] = useState(null);
   const router = createBrowserRouter([
     {
       path: "/",
-      element: (
-        <Root userProfile={userProfile} setUserProfile={setUserProfile} />
-      ),
+      element: <Root />,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -34,7 +43,7 @@ function App() {
         },
         {
           path: "/login",
-          element: <div>login</div>,
+          element: <Login />,
         },
       ],
     },

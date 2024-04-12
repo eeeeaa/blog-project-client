@@ -19,6 +19,7 @@ export const useGetPosts = () => {
     setPosts(
       data.posts.map((val) => {
         return new Post(
+          val._id,
           val.post_title,
           val.post_content,
           val.created_at,
@@ -40,6 +41,7 @@ export const useGetOnePost = (postId) => {
   if (data) {
     setPost(
       new Post(
+        data.post._id,
         data.post.post_title,
         data.post.post_content,
         data.post.created_at,
@@ -61,6 +63,7 @@ export const useCreatePost = (postModel) => {
   if (data) {
     setPost(
       new Post(
+        data.post._id,
         data.post.post_title,
         data.post.post_content,
         data.post.created_at,
@@ -82,6 +85,7 @@ export const useUpdatePost = (postId, postModel) => {
   if (data) {
     setPost(
       new Post(
+        data.updatedPost._id,
         data.updatedPost.post_title,
         data.updatedPost.post_content,
         data.updatedPost.created_at,
@@ -102,6 +106,7 @@ export const useDeletePost = (postId) => {
   if (data) {
     setPost(
       new Post(
+        data.deletedPost._id,
         data.deletedPost.post_title,
         data.deletedPost.post_content,
         data.deletedPost.created_at,

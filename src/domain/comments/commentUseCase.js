@@ -17,7 +17,7 @@ export const useGetComments = (postId) => {
   if (data) {
     setComments(
       data.comments.map((val) => {
-        return new Comment(val.comment, val.created_at, val.post);
+        return new Comment(val._id, val.comment, val.created_at, val.post);
       })
     );
   }
@@ -35,6 +35,7 @@ export const useGetOneComments = (postId, commentId) => {
   if (data) {
     setComment(
       new Comment(
+        data.comment._id,
         data.comment.comment,
         data.comment.created_at,
         data.comment.post
