@@ -1,11 +1,10 @@
 import styles from "../../styles/common/sidebar.module.css";
 import PropTypes from "prop-types";
-import { Post } from "../../model/postUiModel";
 Sidebar.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.objectOf(Post)),
+  posts: PropTypes.arrayOf(PropTypes.object),
 };
 SidebarPostItem.propTypes = {
-  post: PropTypes.objectOf(Post),
+  post: PropTypes.object,
 };
 
 function SidebarPostItem({ post }) {

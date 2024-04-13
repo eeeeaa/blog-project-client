@@ -12,7 +12,7 @@ import ErrorPage from "./routes/error";
 function Root() {
   const [cookies, setCookie] = useCookies(["token"]);
 
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState({});
   return (
     <AppContext.Provider
       value={{

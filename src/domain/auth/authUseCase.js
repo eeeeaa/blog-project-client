@@ -18,6 +18,6 @@ export const loginUseCase = async (username, password) => {
     throw new Error("server error");
   }
 
-  const jsonResponse = response.json();
+  const jsonResponse = await response.json();
   return { username: jsonResponse.username, token: jsonResponse.token };
 };

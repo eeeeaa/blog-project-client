@@ -1,13 +1,12 @@
 import styles from "../../styles/common/contentList.module.css";
-import { Post } from "../../model/postUiModel";
 import LinesEllipsis from "react-lines-ellipsis";
 import PropTypes from "prop-types";
 
 ContentList.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.objectOf(Post)),
+  posts: PropTypes.arrayOf(PropTypes.object),
 };
 ContentItem.propTypes = {
-  post: PropTypes.objectOf(Post),
+  post: PropTypes.object,
 };
 
 function ContentItem({ post }) {

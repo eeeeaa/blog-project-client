@@ -6,7 +6,7 @@ import { AppContext } from "../../utils/contextProvider";
 
 export function Login() {
   const navigate = useNavigate();
-  const { setCookie } = useContext(AppContext);
+  const { setCookie, setUserProfile } = useContext(AppContext);
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -20,6 +20,7 @@ export function Login() {
         sameSite: true,
         maxAge: 86400,
       });
+      setUserProfile({ username: data.username });
       navigate("/");
     } catch (error) {
       navigate("/error");

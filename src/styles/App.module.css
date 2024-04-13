@@ -27,10 +27,10 @@ body {
   background-size: 300% 300%;
   background-image: linear-gradient(
     -45deg,
-    #020617 0%,
-    #0f172a 25%,
-    #1e293b 51%,
-    #334155 100%
+    #500724 0%,
+    #831843 25%,
+    #042f2e 51%,
+    #134e4a 100%
   );
   -webkit-animation: AnimateBG 40s ease infinite;
   animation: AnimateBG 40s ease infinite;
