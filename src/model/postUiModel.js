@@ -14,4 +14,18 @@ export class Post {
     this.updatedAt = updatedAt;
     this.postStatus = postStatus;
   }
+
+  prettifyCreatedAt() {
+    if (this.createdAt === null) return "";
+    let date = new Date(this.createdAt);
+
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  }
+
+  prettifyUpdatedAt() {
+    if (this.updatedAt === null) return "";
+    let date = new Date(this.updatedAt);
+
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  }
 }

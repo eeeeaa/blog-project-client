@@ -4,14 +4,18 @@ import { Post } from "../../model/postUiModel";
 
 const postUri = `${import.meta.env.VITE_BLOG_API_URL}/posts`;
 
-export const useGetPosts = (token = "") => {
-  const [posts, setPosts] = useState(null);
+export const useGetPosts = (token = "", limit = 20) => {
+  const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const headers = { Authorization: `Bearer ${token}` };
-    fetch(postUri, { method: "GET", mode: "cors", headers: headers })
+    fetch(`${postUri}?limit=${limit}`, {
+      method: "GET",
+      mode: "cors",
+      headers: headers,
+    })
       .then((response) => {
         if (response.status >= 400) {
           throw new Error("server error");

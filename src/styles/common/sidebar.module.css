@@ -3,6 +3,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1em;
   justify-content: space-between;
-  border: 1px solid white;
+  border: 1px solid #4b5563;
+}
+
+.sidebar-post-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  border: 1px solid #4b5563;
+  padding: 1em;
 }

@@ -1,29 +1,51 @@
 import styles from "../../styles/common/contentList.module.css";
 import { Post } from "../../model/postUiModel";
-import { useState } from "react";
-import { useContext } from "react";
-import { AppContext } from "../../utils/contextProvider";
-import { useGetPosts } from "../../domain/posts/postUseCase";
+import LinesEllipsis from "react-lines-ellipsis";
+import PropTypes from "prop-types";
 
-import ErrorPage from "../routes/error";
-import LoadingPage from "./loadingPage";
-/**
- *
- * @param {Array<Post>} posts
- * @returns
- */
-export function ContentList() {
-  const { cookie } = useContext(AppContext);
-  const { posts, error, loading } = useGetPosts();
-  if (error) return <ErrorPage errorMsg={error.message} />;
+ContentList.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.objectOf(Post)),
+};
+ContentItem.propTypes = {
+  post: PropTypes.objectOf(Post),
+};
 
-  if (loading) return <LoadingPage />;
+function ContentItem({ post }) {
+  return (
+    <div className={styles["content-item"]}>
+      <h1 className={styles["content-item-header"]}>{post.title}</h1>
+      <div className={styles["divider"]} />
+      <div className={styles["content-item-content"]}>
+        <LinesEllipsis
+          text={post.content}
+          maxLine="3"
+          ellipsis="..."
+          trimRight
+          basedOn="letters"
+        />
+      </div>
+      <div className={styles["content-item-date-list"]}>
+        <div className={styles["content-item-date"]}>
+          Created At: <br /> {post.prettifyCreatedAt()}
+        </div>
+        <div className={styles["content-item-date"]}>
+          Updated At: <br /> {post.prettifyUpdatedAt()}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ContentList({ posts }) {
   return (
     <div className={styles["content-list-layout"]}>
       {posts.length > 0 ? (
-        posts.map((post) => {
-          return <div key={post.postId}>${post.title}</div>;
-        })
+        posts
+          .slice(0, 4)
+          .filter((post) => post.postStatus === "Published")
+          .map((post) => {
+            return <ContentItem key={post.postId} post={post} />;
+          })
       ) : (
         <div>No Blogs</div>
       )}
