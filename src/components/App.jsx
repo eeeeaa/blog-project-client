@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Navbar from "./common/navbar";
@@ -7,12 +7,24 @@ import { AppContext } from "../utils/contextProvider";
 
 import { Home } from "./routes/home";
 import { Login } from "./routes/login";
+import { PostDetailPage } from "./routes/postDetail";
 import ErrorPage from "./routes/error";
+
+import { useGetPosts } from "../domain/posts/postUseCase";
+import { Sidebar } from "./common/sidebar";
+import LoadingPage from "./common/loadingPage";
 
 function Root() {
   const [cookies, setCookie] = useCookies(["token"]);
-
   const [userProfile, setUserProfile] = useState({});
+  const { posts, error, loading } = useGetPosts(
+    cookies === undefined ? "" : cookies.token
+  );
+
+  if (error) return <ErrorPage errorMsg={error.message} />;
+
+  if (loading) return <LoadingPage />;
+
   return (
     <AppContext.Provider
       value={{
@@ -20,11 +32,17 @@ function Root() {
         setUserProfile,
         cookies,
         setCookie,
+        posts,
       }}
     >
       <Navbar />
       <div className={styles.content}>
-        <Outlet />
+        <div className={styles["home-layout"]}>
+          <div className={styles["content-layout"]}>
+            <Outlet />
+          </div>
+          <Sidebar posts={posts} />
+        </div>
       </div>
     </AppContext.Provider>
   );
@@ -44,6 +62,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/post/:postId",
+          element: <PostDetailPage />,
         },
       ],
     },

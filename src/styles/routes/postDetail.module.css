@@ -1,0 +1,62 @@
+.post-detail-layout {
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 2em;
+  border-radius: 1em;
+  margin-bottom: 0.5em;
+  background-color: #27272a;
+
+  .post-detail-header {
+    font-size: x-large;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #94a3b8;
+  }
+
+  .post-detail-content {
+    align-self: flex-start;
+    padding: 1em;
+  }
+
+  .post-detail-date-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.divider {
+  border: 1px solid #64748b;
+  border-radius: 1em;
+}
+
+.comment-list {
+  margin-top: 0.5em;
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .comment-item-msg {
+    font-size: medium;
+    font-weight: 200;
+    padding: 1em 0;
+  }
+
+  .comment-item-info {
+    font-style: italic;
+    font-size: small;
+    font-weight: 100;
+    color: #cbd5e1;
+  }
+}

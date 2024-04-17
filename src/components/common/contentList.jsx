@@ -1,6 +1,7 @@
 import styles from "../../styles/common/contentList.module.css";
 import LinesEllipsis from "react-lines-ellipsis";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 ContentList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object),
@@ -10,8 +11,14 @@ ContentItem.propTypes = {
 };
 
 function ContentItem({ post }) {
+  const navigate = useNavigate();
   return (
-    <div className={styles["content-item"]}>
+    <div
+      onClick={() => {
+        navigate(`/post/${post.postId}`);
+      }}
+      className={styles["content-item"]}
+    >
       <h1 className={styles["content-item-header"]}>{post.title}</h1>
       <div className={styles["divider"]} />
       <div className={styles["content-item-content"]}>

@@ -10,4 +10,11 @@ export class Comment {
     this.createdAt = createdAt;
     this.postId = postId;
   }
+
+  prettifyCreatedAt() {
+    if (this.createdAt === null) return "";
+    let date = new Date(this.createdAt);
+
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  }
 }
