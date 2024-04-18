@@ -82,3 +82,9 @@ body {
   border-radius: 1em;
   padding: 1em;
 }
+
+@media screen and (max-width: 768px) {
+  .home-layout {
+    display: flex;
+  }
+}

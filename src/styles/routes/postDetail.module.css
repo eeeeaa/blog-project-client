@@ -30,6 +30,25 @@
   }
 }
 
+.collapsible {
+  background-color: #262626;
+  color: #e5e5e5;
+  cursor: pointer;
+  padding: 1em;
+  margin-top: 1em;
+  width: 100%;
+  border: none;
+  border-radius: 1em;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.collapsible:hover {
+  background-color: #ccc;
+}
+
 .divider {
   border: 1px solid #64748b;
   border-radius: 1em;
@@ -58,5 +77,37 @@
     font-size: small;
     font-weight: 100;
     color: #cbd5e1;
+  }
+}
+
+.comment-form-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  border: 1px solid #9ca3af;
+  border-radius: 0.5em;
+  padding: 0.5em;
+
+  .comment-form-input {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .comment-text-field {
+    appearance: none;
+    border-color: transparent;
+  }
+  .comment-form-button {
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    border-color: transparent;
+    background-color: #365314;
+    transition: all 0.2s ease;
+  }
+  .comment-form-button:hover {
+    transform: scale(1.02);
+    background-color: #65a30d;
   }
 }
