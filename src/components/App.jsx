@@ -4,6 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Navbar from "./common/navbar";
 import styles from "../styles/App.module.css";
 import { AppContext } from "../utils/contextProvider";
+import { useContext } from "react";
 
 import { Home } from "./routes/home";
 import { Login } from "./routes/login";
@@ -13,6 +14,20 @@ import ErrorPage from "./routes/error";
 import { useGetPosts } from "../domain/posts/postUseCase";
 import { Sidebar } from "./common/sidebar";
 import LoadingPage from "./common/loadingPage";
+
+function Content() {
+  const { posts } = useContext(AppContext);
+  return (
+    <div className={styles.content}>
+      <div className={styles["home-layout"]}>
+        <div className={styles["content-layout"]}>
+          <Outlet />
+        </div>
+        <Sidebar posts={posts} />
+      </div>
+    </div>
+  );
+}
 
 function Root() {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -36,14 +51,7 @@ function Root() {
       }}
     >
       <Navbar />
-      <div className={styles.content}>
-        <div className={styles["home-layout"]}>
-          <div className={styles["content-layout"]}>
-            <Outlet />
-          </div>
-          <Sidebar posts={posts} />
-        </div>
-      </div>
+      <Content />
     </AppContext.Provider>
   );
 }
