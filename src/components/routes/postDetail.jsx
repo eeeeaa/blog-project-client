@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { AppContext } from "../../utils/contextProvider";
+import { useState } from "react";
 import {
   useGetComments,
   createComment,
@@ -61,7 +60,7 @@ function CommentList({ comments, expand }) {
 
 function CreateCommentForm({ postId }) {
   const navigate = useNavigate();
-  const { cookies } = useContext(AppContext);
+
   const [comment, setComment] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +69,7 @@ function CreateCommentForm({ postId }) {
       await createComment(
         postId,
         new Comment(null, comment, null, null, postId),
-        cookies === undefined ? "" : cookies.token
+        ""
       );
       //TODO refresh component without reloading?
       navigate(0);
@@ -138,11 +137,7 @@ function PostContent({ post, comments }) {
 
 export function PostDetailPage() {
   const { postId } = useParams();
-  const { cookies } = useContext(AppContext);
-  const { post, comments, error, loading } = useGetComments(
-    postId,
-    cookies === undefined ? "" : cookies.token
-  );
+  const { post, comments, error, loading } = useGetComments(postId, "");
 
   if (error) return <ErrorPage errorMsg={error.message} />;
 
