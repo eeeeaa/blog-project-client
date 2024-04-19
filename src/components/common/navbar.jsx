@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../utils/contextProvider";
 import { useContext } from "react";
-//import { useNavigate } from "react-router-dom";
+import { MdOutlineLogin } from "react-icons/md";
+import { SlHome } from "react-icons/sl";
 
 NameLogo.propTypes = {
   title: PropTypes.string,
@@ -28,10 +29,13 @@ function NameLogo({ title }) {
   );
 }
 
-function NavItem({ url, label }) {
+function NavItem({ url, label, icon = null }) {
   return (
     <Link to={url} className={styles["nav-item"]}>
-      <li>{label}</li>
+      <li className={styles["nav-item"]}>
+        {icon}
+        {label}
+      </li>
     </Link>
   );
 }
@@ -46,11 +50,11 @@ function MenuSection() {
   const { userProfile } = useContext(AppContext);
   return (
     <ul className={styles["nav-menu-list"]}>
-      <NavItem url="/" label={"Home"} />
-      <NavItem url="/login" label={"Login"} />
+      <NavItem url="/" label={"Home"} icon={<SlHome />} />
+      <NavItem url="/login" label={"Login"} icon={<MdOutlineLogin />} />
       {userProfile.username !== undefined ? (
         <>
-          <NavItem url="/create-post" label={"Create Post"} />
+          <NavItem url="/post/create" label={"Create Post"} />
         </>
       ) : (
         <div />

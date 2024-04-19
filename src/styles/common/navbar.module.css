@@ -3,6 +3,13 @@
   padding: 0 1em;
 }
 
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
 .nav-menu-container {
   display: flex;
   justify-content: space-between;

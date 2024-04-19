@@ -1,8 +1,8 @@
 import { ContentList } from "../common/contentList";
-import { AppContext } from "../../utils/contextProvider";
+import { PostContext } from "../../utils/contextProvider";
 import { useContext } from "react";
 
 export function Home() {
-  const { posts } = useContext(AppContext);
+  const { posts } = useContext(PostContext);
   return <ContentList posts={posts} />;
 }

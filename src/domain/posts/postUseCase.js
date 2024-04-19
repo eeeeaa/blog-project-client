@@ -80,46 +80,41 @@ export const useGetOnePost = (postId, token = "") => {
   return { post, error, loading };
 };
 
-export const useCreatePost = (postModel, token = "") => {
+export const createPost = async (postModel, token = "") => {
   const jsonObj = postToJsonObjMapper(postModel);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [post, setPost] = useState({});
+  let post = null;
+  let error = null;
 
-  useEffect(() => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    fetch(postUri, {
-      method: "POST",
-      mode: "cors",
-      headers: headers,
-      body: JSON.stringify(jsonObj),
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  await fetch(postUri, {
+    method: "POST",
+    mode: "cors",
+    headers: headers,
+    body: JSON.stringify(jsonObj),
+  })
+    .then((response) => {
+      if (response.status >= 400) {
+        throw new Error("server error");
+      }
+      return response.json();
     })
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error("server error");
-        }
-        return response.json();
-      })
-      .then((response) =>
-        setPost(
-          new Post(
-            response.post._id,
-            response.post.post_title,
-            response.post.post_content,
-            response.post.created_at,
-            response.post.updated_at,
-            response.post.post_status
-          )
-        )
-      )
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  }, [token, jsonObj]);
+    .then(
+      (response) =>
+        (post = new Post(
+          response.post._id,
+          response.post.post_title,
+          response.post.post_content,
+          response.post.created_at,
+          response.post.updated_at,
+          response.post.post_status
+        ))
+    )
+    .catch((err) => (error = err));
 
-  return { post, error, loading };
+  return { post, error };
 };
 
 export const useUpdatePost = (postId, postModel, token = "") => {

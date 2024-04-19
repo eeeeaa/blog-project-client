@@ -19,6 +19,11 @@ CommentItem.propTypes = {
 
 CommentList.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
+  expand: PropTypes.bool,
+};
+
+CreateCommentForm.propTypes = {
+  postId: PropTypes.number,
 };
 
 PostContent.propTypes = {
@@ -67,6 +72,7 @@ function CreateCommentForm({ postId }) {
         new Comment(null, comment, null, null, postId),
         cookies === undefined ? "" : cookies.token
       );
+      //TODO refresh component without reloading?
       navigate(0);
     } catch (error) {
       navigate("/error");
