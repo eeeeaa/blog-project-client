@@ -24,7 +24,6 @@ export function Sidebar({ posts }) {
     <div className={styles["sidebar-layout"]}>
       {posts.length > 0 ? (
         posts
-          .slice(0, 4)
           .filter((post) => post.postStatus === "Published")
           .map((post) => {
             return <SidebarPostItem key={post.postId} post={post} />;

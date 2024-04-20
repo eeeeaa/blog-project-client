@@ -47,7 +47,6 @@ export function ContentList({ posts }) {
     <div className={styles["content-list-layout"]}>
       {posts.length > 0 ? (
         posts
-          .slice(0, 4)
           .filter((post) => post.postStatus === "Published")
           .map((post) => {
             return <ContentItem key={post.postId} post={post} />;
