@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../styles/routes/postDetail.module.css";
 import PropTypes from "prop-types";
 import { Comment } from "../../model/commentUiModel";
+import { decode } from "html-entities";
+import parse from "html-react-parser";
 
 import ErrorPage from "./error";
 import LoadingPage from "../common/loadingPage";
@@ -109,7 +111,9 @@ function PostContent({ post, comments }) {
     <div>
       <div className={styles["post-detail-layout"]}>
         <h1 className={styles["post-detail-header"]}>{post.title}</h1>
-        <div className={styles["post-detail-content"]}>{post.content}</div>
+        <div className={styles["post-detail-content"]}>
+          {parse(decode(post.content, { level: "html5" }))}
+        </div>
         <div className={styles["post-detail-date-list"]}>
           <div className={styles["post-detail-date"]}>
             Created At: <br /> {post.prettifyCreatedAt()}

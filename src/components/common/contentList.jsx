@@ -2,6 +2,8 @@ import styles from "../../styles/common/contentList.module.css";
 import LinesEllipsis from "react-lines-ellipsis";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { decode } from "html-entities";
+import parse from "html-react-parser";
 
 ContentList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object),
@@ -23,7 +25,7 @@ function ContentItem({ post }) {
       <div className={styles["divider"]} />
       <div className={styles["content-item-content"]}>
         <LinesEllipsis
-          text={post.content}
+          text={parse(decode(post.content, { level: "html5" }))}
           maxLine="3"
           ellipsis="..."
           trimRight
