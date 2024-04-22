@@ -32,9 +32,12 @@
   }
 
   .content-item-content {
+    max-height: 130px;
+    overflow: hidden;
     padding: 1em 0;
     font-size: medium;
     font-weight: 300;
+    mask-image: linear-gradient(180deg, #000 60%, transparent);
   }
 
   .content-item-date-list {

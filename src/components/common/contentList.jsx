@@ -1,5 +1,4 @@
 import styles from "../../styles/common/contentList.module.css";
-import LinesEllipsis from "react-lines-ellipsis";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { decode } from "html-entities";
@@ -24,13 +23,7 @@ function ContentItem({ post }) {
       <h1 className={styles["content-item-header"]}>{post.title}</h1>
       <div className={styles["divider"]} />
       <div className={styles["content-item-content"]}>
-        <LinesEllipsis
-          text={parse(decode(post.content, { level: "html5" }))}
-          maxLine="3"
-          ellipsis="..."
-          trimRight
-          basedOn="letters"
-        />
+        {parse(decode(post.content, { level: "html5" }))}
       </div>
       <div className={styles["content-item-date-list"]}>
         <div className={styles["content-item-date"]}>
